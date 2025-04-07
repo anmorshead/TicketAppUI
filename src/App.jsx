@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
+
 
 function App() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -9,6 +11,7 @@ function App() {
       quantity: 1,
     }
   });
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -24,10 +27,8 @@ function App() {
       );
 
       if (response.ok) {
-        alert(
-          "Purchase completed successfully! Please check your email to receive your tickets."
-        );
         reset();
+        navigate("/confirmation");
       } else {
         console.error("Failed to submit", await response.text());
       }
@@ -35,6 +36,7 @@ function App() {
       console.error("Error submitting purchase", error);
     }
   };
+
 
   return (
     <div>
