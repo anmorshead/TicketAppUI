@@ -40,10 +40,10 @@ function App() {
     <div>
     <Header/>
     <div className="min-h-screen bg-black grid grid-cols-12">
-      <img className="col-span-6 mx-5 my-10"src="blink182.jpg"></img>
+      <img className="col-span-6 rounded-md mx-5 my-10"src="blink182.jpg"></img>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white shadow-md col-span-6 p-8 mx-10 my-10 space-y-4"
+        className="bg-white rounded-md shadow-md col-span-6 p-8 mx-10 my-10 space-y-4"
       >
         <h2 className="col-span-12 text-2xl font-bold mb-10 ">
           Complete the Purchase Form Below
@@ -59,61 +59,60 @@ function App() {
           />
         </div>
 
+        {/* Email */}
         <div className="col-span-12">
-          <label
-            htmlFor="email"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
             Email
           </label>
           <input
-            {...register("email", { required: true })}
+            {...register("email", { required: "Email is required" })}
             type="email"
             placeholder="Email"
             id="email"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
         </div>
 
+        {/* Name */}
         <div className="col-span-12">
-          <label
-            htmlFor="name"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
             Name
           </label>
           <input
-            {...register("name", { required: true })}
+            {...register("name", { required: "Name is required" })}
             placeholder="Name"
             id="name"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
         </div>
 
+        {/* Phone */}
         <div className="col-span-12">
-          <label
-            htmlFor="phone"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="phone" className="block text-sm font-semibold text-gray-700">
             Phone
           </label>
           <input
-            {...register("phone", { required: true })}
+            {...register("phone", { required: "Phone is required" })}
             placeholder="Phone"
             id="phone"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.phone && <p className="text-red-600 text-sm">{errors.phone.message}</p>}
         </div>
 
+        {/* Quantity */}
         <div className="col-span-12">
-          <label
-            htmlFor="quantity"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="quantity" className="block text-sm font-semibold text-gray-700">
             Quantity
           </label>
           <input
-            {...register("quantity", { required: true, min: 1 })}
+            {...register("quantity", {
+              required: "Quantity is required",
+              min: { value: 1, message: "Minimum 1 ticket" },
+              max: { value: 6, message: "Maximum 6 tickets" }
+            })}
             type="number"
             placeholder="Quantity"
             id="quantity"
@@ -121,127 +120,135 @@ function App() {
             min="1"
             max="6"
           />
+          {errors.quantity && <p className="text-red-600 text-sm">{errors.quantity.message}</p>}
         </div>
 
+        {/* Credit Card */}
         <div className="col-span-12">
-          <label
-            htmlFor="creditCard"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="creditCard" className="block text-sm font-semibold text-gray-700">
             Credit Card Number
           </label>
           <input
-            {...register("creditCard", { required: true })}
+            {...register("creditCard", { required: "Credit card number is required" })}
             placeholder="Credit Card Number"
             id="creditCard"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.creditCard && <p className="text-red-600 text-sm">{errors.creditCard.message}</p>}
         </div>
 
+        {/* Expiration */}
         <div className="col-span-12">
-          <label
-            htmlFor="expiration"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="expiration" className="block text-sm font-semibold text-gray-700">
             MM/YY
           </label>
           <input
-            {...register("expiration", { required: true })}
+            {...register("expiration", { required: "Expiration date is required" })}
             placeholder="Expiration Date"
             id="expiration"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.expiration && <p className="text-red-600 text-sm">{errors.expiration.message}</p>}
         </div>
 
+        {/* CVV */}
         <div className="col-span-12">
-          <label
-            htmlFor="securityCode"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="securityCode" className="block text-sm font-semibold text-gray-700">
             CVV
           </label>
           <input
-            {...register("securityCode", { required: true })}
+            {...register("securityCode", { required: "CVV is required" })}
             placeholder="CVV"
             id="securityCode"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.securityCode && <p className="text-red-600 text-sm">{errors.securityCode.message}</p>}
         </div>
 
+        {/* Address */}
         <div className="col-span-12">
-          <label
-            htmlFor="address"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="address" className="block text-sm font-semibold text-gray-700">
             Address
           </label>
           <input
-            {...register("address", { required: true })}
+            {...register("address", { required: "Address is required" })}
             placeholder="Address"
             id="address"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.address && <p className="text-red-600 text-sm">{errors.address.message}</p>}
         </div>
 
+        {/* City */}
         <div className="col-span-12">
-          <label
-            htmlFor="city"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="city" className="block text-sm font-semibold text-gray-700">
             City
           </label>
           <input
-            {...register("city", { required: true })}
+            {...register("city", { required: "City is required" })}
             placeholder="City"
             id="city"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.city && <p className="text-red-600 text-sm">{errors.city.message}</p>}
         </div>
 
+        {/* Province */}
         <div className="col-span-12">
-          <label
-            htmlFor="province"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="province" className="block text-sm font-semibold text-gray-700">
             Province
           </label>
-          <input
-            {...register("province", { required: true })}
-            placeholder="Province"
+          <select
+            {...register("province", { required: "Province is required" })}
             id="province"
-            className="border border-gray-300 p-2 rounded w-full"
-          />
+            className="border text-gray-400 border-gray-300 p-2 rounded w-full"
+          >
+            <option value="">Select a province</option>
+            <option value="AB">Alberta</option>
+            <option value="BC">British Columbia</option>
+            <option value="MB">Manitoba</option>
+            <option value="NB">New Brunswick</option>
+            <option value="NL">Newfoundland and Labrador</option>
+            <option value="NS">Nova Scotia</option>
+            <option value="NT">Northwest Territories</option>
+            <option value="NU">Nunavut</option>
+            <option value="ON">Ontario</option>
+            <option value="PE">Prince Edward Island</option>
+            <option value="QC">Quebec</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="YT">Yukon</option>
+          </select>
+          {errors.province && <p className="text-red-600 text-sm">{errors.province.message}</p>}
         </div>
 
+        {/* Postal Code */}
         <div className="col-span-12">
-          <label
-            htmlFor="postalCode"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="postalCode" className="block text-sm font-semibold text-gray-700">
             Postal Code
           </label>
           <input
-            {...register("postalCode", { required: true })}
+            {...register("postalCode", { required: "Postal code is required" })}
             placeholder="Postal Code"
             id="postalCode"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.postalCode && <p className="text-red-600 text-sm">{errors.postalCode.message}</p>}
         </div>
 
+        {/* Country */}
         <div className="col-span-12">
-          <label
-            htmlFor="country"
-            className="block text-sm font-semibold text-gray-700"
-          >
+          <label htmlFor="country" className="block text-sm font-semibold text-gray-700">
             Country
           </label>
           <input
-            {...register("country", { required: true })}
+            {...register("country", { required: "Country is required" })}
             placeholder="Country"
             id="country"
             className="border border-gray-300 p-2 rounded w-full"
           />
+          {errors.country && <p className="text-red-600 text-sm">{errors.country.message}</p>}
         </div>
+
 
         <button
           type="submit"
