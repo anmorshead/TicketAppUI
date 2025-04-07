@@ -15,27 +15,49 @@ function App() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(
-        "https://nscc-0232209-tickethub-api-bcdxhjdbbec3b3gp.canadacentral-01.azurewebsites.net/api/purchaseinfo",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
+      const response = await fetch("https://nscc-0232209-tickethub-api-bcdxhjdbbec3b3gp.canadacentral-01.azurewebsites.net/api/purchaseinfo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+  
       if (response.ok) {
         reset();
         navigate("/confirmation");
       } else {
-        console.error("Failed to submit", await response.text());
+        const errorData = await response.json();
+  
+        // Flatten the ASP.NET error response
+        const flattenedErrors = [];
+        if (errorData.errors) {
+          for (const key in errorData.errors) {
+            const messages = errorData.errors[key];
+            messages.forEach(msg => {
+              flattenedErrors.push({ field: key, message: msg });
+            });
+          }
+        }
+  
+        reset();
+        navigate("/error", {
+          state: {
+            message: errorData.title || "Validation failed.",
+            errors: flattenedErrors,
+          },
+        });
       }
     } catch (error) {
-      console.error("Error submitting purchase", error);
+      reset();
+      navigate("/error", {
+        state: {
+          message: error.message || "Unexpected error occurred.",
+          errors: [],
+        },
+      });
     }
   };
+  
+    
 
 
   return (
