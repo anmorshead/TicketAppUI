@@ -32,8 +32,8 @@ function App() {
         reset();
         navigate("/confirmation");
       } else {
-        const errorData = await response.json();
-        const flattenedErrors = [];
+        const errorData = await response.json(); //get error data from json response
+        const flattenedErrors = []; //parse errors
   
         for (const key in errorData.errors) {
           errorData.errors[key].forEach((msg) => {
@@ -55,7 +55,7 @@ function App() {
   return (
     <div>
     <Header/>
-    
+
     {/* errors */}
     {apiErrors.length > 0 && (
       <div className="col-span-12 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
@@ -71,7 +71,15 @@ function App() {
       </div>
     )}
     <div className="min-h-screen bg-black grid grid-cols-12">
-      <img className="col-span-6 rounded-md mx-5 my-10"src="blink182.jpg"></img>
+
+      <div className="col-span-6 rounded-md mx-5 my-10">
+        <img className=""src="blink182.jpg"></img>
+        <div className="bg-gray-800 text-white rounded-md shadow-md p-10 mt-6">
+          <h2 className="text-2xl font-bold">Live in Toronto!</h2>
+          <p className="text-xl">Saturday, May 10, 2025 @ 7:30 PM</p>
+        </div>
+      </div>
+
 
       <form
         onSubmit={handleSubmit(onSubmit)}
