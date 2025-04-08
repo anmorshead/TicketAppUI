@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 
 function App() {
+  const [apiErrors, setApiErrors] = useState([]);
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
       concertID: 3, 
@@ -15,48 +16,38 @@ function App() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("https://nscc-0232209-tickethub-api-bcdxhjdbbec3b3gp.canadacentral-01.azurewebsites.net/api/purchaseinfo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://nscc-0232209-tickethub-api-bcdxhjdbbec3b3gp.canadacentral-01.azurewebsites.net/api/purchaseinfo",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
   
       if (response.ok) {
+        setApiErrors([]); // clear any previous errors
         reset();
         navigate("/confirmation");
       } else {
-        const errorData = await response.json(); // gets the json from the backend
-  
-        // pick errors out of object, push to new array of errors
+        const errorData = await response.json();
         const flattenedErrors = [];
-        if (errorData.errors) {
-          for (const key in errorData.errors) {
-            const messages = errorData.errors[key];
-            messages.forEach(msg => {
-              flattenedErrors.push({ field: key, message: msg });
-            });
-          }
+  
+        for (const key in errorData.errors) {
+          errorData.errors[key].forEach((msg) => {
+            flattenedErrors.push({ field: key, message: msg });
+          });
         }
   
-        reset();
-        //pass errors in state to error page
-        navigate("/error", {
-          state: {
-            message: errorData.title || "Validation failed.",
-            errors: flattenedErrors,
-          },
-        });
+        setApiErrors(flattenedErrors);
       }
     } catch (error) {
-      reset();
-      navigate("/error", {
-        state: {
-          message: error.message || "Unexpected error occurred.",
-          errors: [],
-        },
-      });
+      setApiErrors([{ message: "Something went wrong. Please try again." }]);
     }
   };
+  
   
     
 
@@ -64,8 +55,24 @@ function App() {
   return (
     <div>
     <Header/>
+    
+    {/* errors */}
+    {apiErrors.length > 0 && (
+      <div className="col-span-12 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+        <strong className="font-bold">Submission Error:</strong>
+        <ul className="mt-2 list-disc list-inside">
+          {apiErrors.map((err, index) => (
+            <li key={index}>
+              {err.field ? `${err.field}: ` : ""}
+              {err.message}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
     <div className="min-h-screen bg-black grid grid-cols-12">
       <img className="col-span-6 rounded-md mx-5 my-10"src="blink182.jpg"></img>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-md shadow-md col-span-6 p-8 mx-10 my-10 space-y-4"
