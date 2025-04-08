@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 function ErrorPage() {
-  const location = useLocation();
+  const location = useLocation(); //use to access passed down state
   const message = location.state?.message || "Something went wrong.";
   const errors = location.state?.errors || [];
 

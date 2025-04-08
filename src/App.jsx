@@ -25,9 +25,9 @@ function App() {
         reset();
         navigate("/confirmation");
       } else {
-        const errorData = await response.json();
+        const errorData = await response.json(); // gets the json from the backend
   
-        // Flatten the ASP.NET error response
+        // pick errors out of object, push to new array of errors
         const flattenedErrors = [];
         if (errorData.errors) {
           for (const key in errorData.errors) {
@@ -39,6 +39,7 @@ function App() {
         }
   
         reset();
+        //pass errors in state to error page
         navigate("/error", {
           state: {
             message: errorData.title || "Validation failed.",
